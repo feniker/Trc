@@ -7,10 +7,6 @@ from scipy.optimize import curve_fit
 
 Rsh = 0.025 # сопротивление шунта
 MARKER_STEP = 30000
-def funcCh1(x, w, A1, phi):
-    return A1*np.sin(w*x + phi)
-#def T_max(y):
-#    return y.find(max(y))
 def get_num(str):
     return int(str[-6:-4])
 def get_ch(str):
@@ -26,14 +22,7 @@ for i in files:
     datX, datY, d = trc.open(InputDirectory+'/'+i)
     DATX[get_num(i)][get_ch(i)-1] = datX
     DATY[get_num(i)][get_ch(i)-1] = datY
-for i in range(len(DATX)):
-    if not DATX[i][0] == []:
-        plt.plot(DATX[i][0][::100], np.abs(DATY[i][0][::100]/0.025), lw = 0.5, label = str(i))
-        print("(Ch", i, 0, ") is added")
-plt.legend()
-plt.show()
 # графики интегралов
-
 def integral(x_, y_, st = 10000):
     ansy = []
     ansx = []
@@ -49,29 +38,20 @@ def addPlotInt(listPl):
         xaxe, integ = integral(DATX[listPl[i]][1], DATY[listPl[i]][1]/5)#так как намотал 5 витков
         xRel.append(max((DATY[listPl[i]][0]))/Rsh)
         yRel.append(max(integ))
-        print(max((DATY[listPl[i]][0]))/Rsh, max(integ))
-        plt.scatter(max((DATY[listPl[i]][0]))/Rsh, max(integ))
+        plt.scatter(max((DATY[listPl[i]][0]))/Rsh, max(integ), c = "black", s = 3)
         #plt.plot(DATX[listPl[i]][0][::100], 0.0013*DATY[listPl[i]][0][::100]/Rsh/240, label = 'I - '+str(i))# так как F = IL/N, где I = U/Rsh
-    plt.plot(xRel, yRel)
-def FluxRelCur(listL, listFl):
-    plt.plot(listL/Rsh, listFl/628/5)#т.к. витков 5 было намотано
-    plt.scatter(listL/Rsh, listFl/628/5)
-    plt.show()
+    par = np.polyfit(xRel, yRel, 1)
+    lsm = np.poly1d(par)
+    print("МНК для данных точек", par)
+    xline = np.linspace(0.3, 300-0.3, 1000)
+    yline = [lsm(i) for i in xline]
+    plt.plot(xline, yline, c = "black", lw = 0.5)
 
-
-"""
-ar_I_L = np.array([7, 6.3, 5.9, 5.3, 5.06, 4.58, 4.16, 3.66, 3.29, 2.883, 2.34, 1.83, 1.312])
-ar_I_fl = np.array([6.3, 5.68, 5.3, 4.82, 4.57, 4.14, 3.81, 3.35, 2.895, 2.5, 2.08, 1.65, 1.146])
-FluxRelCur(ar_I_L, ar_I_fl)
-
-addPlot([10, 12, 15, 13], [None, "*", "v", "s"])
-plt.grid()
-plt.xlabel("T, мс")
-plt.ylabel("U, В")
-plt.show()
-"""
 addPlotInt(range(1, 35))
-plt.grid()
-plt.legend()
+plt.grid(True, color = "k")
+plt.ylim(0, 0.00175)
+plt.xlim(0, 300)
+plt.xlabel("I, A")
+plt.ylabel("Ф, Вб")
 plt.savefig("Flux from Current")
 plt.show()
