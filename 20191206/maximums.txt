@@ -1,0 +1,14 @@
+48265 Loop in R=2 max 94.3 kMx at 4.03 ms
+48267 Loop in R=2 max 82.8 kMx at 4.02 ms
+48268 Loop in R=2 max 71.8 kMx at 4.02 ms
+48269 Loop in R=2 max 82.6 kMx at 4.02 ms
+48270 Loop in R=2 max 61.3 kMx at 4.03 ms
+48271 Loop in R=2 max 49.9 kMx at 4.03 ms
+48272 Loop in R=2 max 38.3 kMx at 4.02 ms
+48277 Loop in R=1 max 92.7 kMx at 3.99 ms
+48279 Loop in R=1 max 81.3 kMx at 3.99 ms
+48280 Loop in R=1 max 70.9 kMx at 4.00 ms
+48281 Loop in R=1 max 59.4 kMx at 3.98 ms
+48282 Loop in R=1 max 48.9 kMx at 3.98 ms
+48283 Loop in R=1 max 37.4 kMx at 4.01 ms
+48284 Loop in R=1 max 103.0 kMx at 4.00 ms
